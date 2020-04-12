@@ -38,6 +38,11 @@ def predict_fruit(intensity: str = None):
     label = label_dict[np.argmax(prediction)]
     return label_dict[np.argmax(prediction)]
 
+@app.post('/test_post/')
+def test_post_function(name: str = None):
+    print(name)
+    return None
+
 @app.get("/")
 def read_root():
     return {"Hello": "World"}
