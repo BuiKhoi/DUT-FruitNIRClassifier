@@ -22,7 +22,7 @@ graph = tf.get_default_graph()
 with open(LABEL_DICT_PATH, 'r') as label_dict_file:
     label_dict = json.loads(label_dict_file.read())
 
-@app.post('/predict/')
+@app.get('/predict/')
 def predict_fruit(intensity: str = None):
     global graph
     global sess
