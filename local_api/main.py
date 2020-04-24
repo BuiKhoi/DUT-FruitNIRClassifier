@@ -4,6 +4,8 @@ import numpy as np
 import tensorflow as tf
 from keras.backend.tensorflow_backend import set_session
 import json
+import os
+from datetime import datetime
 
 MODEL_PATH = './models/fruit_classify_der_resnet.json'
 WEIGHT_PATH = './models/fruit_classify_der_resnet.h5'
@@ -22,21 +24,33 @@ graph = tf.get_default_graph()
 with open(LABEL_DICT_PATH, 'r') as label_dict_file:
     label_dict = json.loads(label_dict_file.read())
 
-@app.get('/predict/')
+def parse_intensity(intensity):
+    intensity = intensity.split('x')
+    intensity = np.array([float(inten) for inten in intensity])
+    return intensity
+
+@app.post('/predict/')
 def predict_fruit(intensity: str = None):
     global graph
     global sess
     global run_model
     global label_dict
-    print(intensity)
-    intensity = intensity.split('x')
-    pred_value = np.array([float(inten) for inten in intensity])
-    pred_value = np.expand_dims(pred_value, 1)
+    # print(intensity)
+    pred_value = np.expand_dims(parse_intensity(intensity), 1)
     with graph.as_default():
         set_session(sess)
         prediction = run_model.predict(np.expand_dims(pred_value, 0))
     label = label_dict[np.argmax(prediction)]
     return label_dict[np.argmax(prediction)]
+
+@app.post('/collect/')
+def collect_data(intensity: str = None, fruit: str = None):
+    save_path = './collected_data/' + fruit + '/'
+    if not os.path.exists(save_path):
+        os.mkdir(save_path)
+    inten = parse_intensity(intensity)
+    np.save(save_path + str(datetime.now()), inten)
+    return 'saved'
 
 @app.post('/test_post/')
 def test_post_function(name: str = None):
