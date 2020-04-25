@@ -12,116 +12,163 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+
 import java.util.ArrayList;
 
+/**
+ * This activity controls the information links. Each info item will have a title, message body,
+ * and an associated URL. When an item is clicked, the web browser should open the URL
+ *
+ * @author collinmast
+ */
 public class InfoActivity extends Activity {
+
     private ListView infoList;
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_info);
+
+        //Set up action bar back arrow
+        ActionBar ab = getActionBar();
+        if (ab != null) {
+            ab.setDisplayHomeAsUpEnabled(true);
+        }
+
+        infoList = (ListView) findViewById(R.id.lv_info);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ArrayList<InfoManager> infoManagerArrayList = new ArrayList<>();
+        int length = getResources().getStringArray(R.array.info_title_array).length;
+        int index;
+        for (index = 0; index < length; index++) {
+            infoManagerArrayList.add(new InfoManager(
+                    getResources().getStringArray(R.array.info_title_array)[index],
+                    getResources().getStringArray(R.array.info_body_array)[index],
+                    getResources().getStringArray(R.array.info_url_array)[index]));
+        }
+
+        final InformationAdapter adapter = new InformationAdapter(this, R.layout.row_info_item, infoManagerArrayList);
+        infoList.setAdapter(adapter);
+
+        //When an info item is clicked, launch the URL using rhe ACTION_VIEW intent
+        infoList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent webIntent = new Intent(Intent.ACTION_VIEW);
+                webIntent.setData(Uri.parse(adapter.getItem(i).getInfoURL()));
+                startActivity(webIntent);
+            }
+        });
+    }
+
+    /*
+     * Inflate the options menu
+     * In this case, inflate the menu resource
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_info, menu);
+        return true;
+    }
+
+    /*
+     * Handle the selection of a menu item.
+     * In this case, there is only the up indicator. If selected, this activity should finish.
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+
+        if (id == android.R.id.home) {
+            this.finish();
+        }
+
+        else if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * Class to hold the information items. These objects have a title, body, and an
+     * associated URL
+     */
     private class InfoManager {
-        private String infoBody;
+
         private String infoTitle;
+        private String infoBody;
         private String infoURL;
 
-        public InfoManager(String infoTitle2, String infoBody2, String infoURL2) {
-            this.infoTitle = infoTitle2;
-            this.infoBody = infoBody2;
-            this.infoURL = infoURL2;
+        public InfoManager(String infoTitle, String infoBody, String infoURL) {
+            this.infoTitle = infoTitle;
+            this.infoBody = infoBody;
+            this.infoURL = infoURL;
         }
 
         public String getInfoTitle() {
-            return this.infoTitle;
+            return infoTitle;
         }
 
         public String getInfoBody() {
-            return this.infoBody;
+            return infoBody;
         }
 
         public String getInfoURL() {
-            return this.infoURL;
+            return infoURL;
         }
     }
 
+    /**
+     * Custom adapter to hold {@link com.kstechnologies.NanoScan.InfoActivity.InfoManager} objects
+     * and add them to the listview
+     */
     public class InformationAdapter extends ArrayAdapter<InfoManager> {
         private ViewHolder viewHolder;
-
-        private class ViewHolder {
-            /* access modifiers changed from: private */
-            public TextView infoBody;
-            /* access modifiers changed from: private */
-            public TextView infoTitle;
-
-            private ViewHolder() {
-            }
-        }
 
         public InformationAdapter(Context context, int textViewResourceId, ArrayList<InfoManager> items) {
             super(context, textViewResourceId, items);
         }
 
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
             if (convertView == null) {
-                convertView = LayoutInflater.from(getContext()).inflate(R.layout.row_info_item, parent, false);
-                this.viewHolder = new ViewHolder();
-                this.viewHolder.infoTitle = (TextView) convertView.findViewById(R.id.tv_info_title);
-                this.viewHolder.infoBody = (TextView) convertView.findViewById(R.id.tv_info_body);
-                convertView.setTag(this.viewHolder);
+                convertView = LayoutInflater.from(this.getContext())
+                        .inflate(R.layout.row_info_item, parent, false);
+
+                viewHolder = new ViewHolder();
+                viewHolder.infoTitle = (TextView) convertView.findViewById(R.id.tv_info_title);
+                viewHolder.infoBody = (TextView) convertView.findViewById(R.id.tv_info_body);
+
+                convertView.setTag(viewHolder);
             } else {
-                this.viewHolder = (ViewHolder) convertView.getTag();
+                viewHolder = (ViewHolder) convertView.getTag();
             }
-            InfoManager item = (InfoManager) getItem(position);
+
+            final InfoManager item = getItem(position);
             if (item != null) {
-                this.viewHolder.infoTitle.setText(item.getInfoTitle());
-                this.viewHolder.infoBody.setText(item.getInfoBody());
+
+                viewHolder.infoTitle.setText(item.getInfoTitle());
+                viewHolder.infoBody.setText(item.getInfoBody());
             }
             return convertView;
         }
-    }
 
-    /* access modifiers changed from: protected */
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_info);
-        ActionBar ab = getActionBar();
-        if (ab != null) {
-            ab.setDisplayHomeAsUpEnabled(true);
+        /**
+         * View holder for {@link com.kstechnologies.NanoScan.InfoActivity.InfoManager} objects
+         */
+        private class ViewHolder {
+            private TextView infoTitle;
+            private TextView infoBody;
         }
-        this.infoList = (ListView) findViewById(R.id.lv_info);
-    }
-
-    public void onResume() {
-        super.onResume();
-        ArrayList<InfoManager> infoManagerArrayList = new ArrayList<>();
-        int length = getResources().getStringArray(R.array.info_title_array).length;
-        for (int index = 0; index < length; index++) {
-            infoManagerArrayList.add(new InfoManager(getResources().getStringArray(R.array.info_title_array)[index], getResources().getStringArray(R.array.info_body_array)[index], getResources().getStringArray(R.array.info_url_array)[index]));
-        }
-        final InformationAdapter adapter = new InformationAdapter(this, R.layout.row_info_item, infoManagerArrayList);
-        this.infoList.setAdapter(adapter);
-        this.infoList.setOnItemClickListener(new OnItemClickListener() {
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent webIntent = new Intent("android.intent.action.VIEW");
-                webIntent.setData(Uri.parse(((InfoManager) adapter.getItem(i)).getInfoURL()));
-                InfoActivity.this.startActivity(webIntent);
-            }
-        });
-    }
-
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_info, menu);
-        return true;
-    }
-
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == 16908332) {
-            finish();
-        } else if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 }
