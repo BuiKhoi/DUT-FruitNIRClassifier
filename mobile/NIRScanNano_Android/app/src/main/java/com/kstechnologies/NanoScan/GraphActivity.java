@@ -32,7 +32,6 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.kstechnologies.nirscannanolibrary.KSTNanoSDK;
 import com.kstechnologies.nirscannanolibrary.ScanListDictionary;
-import com.kstechnologies.nirscannanolibrary.SettingsManager;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -44,6 +43,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.util.ArrayList;
+
+import com.kstechnologies.nirscannanolibrary.SettingsManager;
 
 /**
  * Activity controlling the graphing of stored scan files.
@@ -251,15 +252,15 @@ public class GraphActivity extends Activity {
         //Generate data points and calculate mins and maxes
         for (int i = 0; i < mXValues.size(); i++) {
             try {
-                Float fIntensity = Float.parseFloat(mIntensityString.get(i));
-                Float fAbsorbance = Float.parseFloat(mAbsorbanceString.get(i));
-                Float fReflectance = Float.parseFloat(mReflectanceString.get(i));
-                Float fWavelength = Float.parseFloat(mXValues.get(i));
+            Float fIntensity = Float.parseFloat(mIntensityString.get(i));
+            Float fAbsorbance = Float.parseFloat(mAbsorbanceString.get(i));
+            Float fReflectance = Float.parseFloat(mReflectanceString.get(i));
+            Float fWavelength = Float.parseFloat(mXValues.get(i));
 
-                mIntensityFloat.add(new Entry(fIntensity, i));
-                mAbsorbanceFloat.add(new Entry(fAbsorbance, i));
-                mReflectanceFloat.add(new Entry(fReflectance, i));
-                mWavelengthFloat.add(fWavelength);
+            mIntensityFloat.add(new Entry(fIntensity, i));
+            mAbsorbanceFloat.add(new Entry(fAbsorbance, i));
+            mReflectanceFloat.add(new Entry(fReflectance, i));
+            mWavelengthFloat.add(fWavelength);
 
             }catch (NumberFormatException e){
                 Toast.makeText(GraphActivity.this, "Error parsing float value", Toast.LENGTH_SHORT).show();

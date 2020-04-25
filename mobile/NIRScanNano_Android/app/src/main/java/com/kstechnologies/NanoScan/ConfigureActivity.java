@@ -12,75 +12,126 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
+
 import android.widget.ListView;
+
+import com.kstechnologies.nirscannanolibrary.*;
 import com.kstechnologies.nirscannanolibrary.KSTNanoSDK;
 
+/**
+ * This activity controls the view for settings once the Nano is connected
+ * Four options are presented, each one launching a new activity.
+ * Since each option requires the Nano to be connected to perform GATT operations,
+ *
+ * @author collinmast
+ */
 public class ConfigureActivity extends Activity {
-    /* access modifiers changed from: private */
-    public static Context mContext;
-    private final IntentFilter disconnFilter = new IntentFilter(KSTNanoSDK.ACTION_GATT_DISCONNECTED);
+
+    private static Context mContext;
+
     private final BroadcastReceiver disconnReceiver = new DisconnReceiver();
+    private final IntentFilter disconnFilter = new IntentFilter(KSTNanoSDK.ACTION_GATT_DISCONNECTED);
 
-    public class DisconnReceiver extends BroadcastReceiver {
-        public DisconnReceiver() {
-        }
-
-        public void onReceive(Context context, Intent intent) {
-            ConfigureActivity.this.finish();
-        }
-    }
-
-    /* access modifiers changed from: protected */
-    public void onCreate(Bundle savedInstanceState) {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_configure);
+
         mContext = this;
+
+        //Set the action bar title and enable the back button
         ActionBar ab = getActionBar();
         if (ab != null) {
             ab.setDisplayHomeAsUpEnabled(true);
             ab.setTitle(getString(R.string.configure));
         }
-        ((ListView) findViewById(R.id.lv_configure)).setOnItemClickListener(new OnItemClickListener() {
+
+        //Get reference to listview and add the click listener
+        ListView lv_configure = (ListView) findViewById(R.id.lv_configure);
+        lv_configure.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
                 switch (i) {
                     case 0:
-                        ConfigureActivity.this.startActivity(new Intent(ConfigureActivity.mContext, DeviceInfoActivity.class));
-                        return;
+                        Intent infoIntent = new Intent(mContext, DeviceInfoActivity.class);
+                        startActivity(infoIntent);
+                        break;
                     case 1:
-                        ConfigureActivity.this.startActivity(new Intent(ConfigureActivity.mContext, DeviceStatusActivity.class));
-                        return;
+                        Intent statusIntent = new Intent(mContext, DeviceStatusActivity.class);
+                        startActivity(statusIntent);
+                        break;
                     case 2:
-                        ConfigureActivity.this.startActivity(new Intent(ConfigureActivity.mContext, ScanConfActivity.class));
-                        return;
+                        Intent confIntent = new Intent(mContext, ScanConfActivity.class);
+                        startActivity(confIntent);
+                        break;
                     case 3:
-                        ConfigureActivity.this.startActivity(new Intent(ConfigureActivity.mContext, StoredScanDataActivity.class));
-                        return;
+                        Intent scanDataIntent = new Intent(mContext, StoredScanDataActivity.class);
+                        startActivity(scanDataIntent);
+                        break;
                     default:
-                        return;
+                        break;
                 }
             }
         });
-        LocalBroadcastManager.getInstance(mContext).registerReceiver(this.disconnReceiver, this.disconnFilter);
+
+        //Register the disconnect broadcast receiver
+        LocalBroadcastManager.getInstance(mContext).registerReceiver(disconnReceiver, disconnFilter);
     }
 
+    /*
+     * On resume, make a call to the super class.
+     * Nothing else is needed here besides calling
+     * the super method.
+     */
+    @Override
     public void onResume() {
         super.onResume();
     }
 
+    /*
+     * When the activity is destroyed, unregister the BroadcastReceiver
+     * handling disconnection events.
+     */
+    @Override
     public void onDestroy() {
         super.onDestroy();
-        LocalBroadcastManager.getInstance(mContext).unregisterReceiver(this.disconnReceiver);
+        LocalBroadcastManager.getInstance(mContext).unregisterReceiver(disconnReceiver);
     }
 
+    /*
+     * Inflate the options menu
+     * In this case, there is no menu and only an up indicator,
+     * so the function should always return true.
+     */
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         return true;
     }
 
+    /*
+     * Handle the selection of a menu item.
+     * In this case, there is only the up indicator. If selected, this activity should finish.
+     */
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == 16908332) {
-            finish();
+        int id = item.getItemId();
+
+        if (id == android.R.id.home) {
+            this.finish();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * Broadcast Receiver handling the disconnect event. If the Nano disconnects,
+     * this activity should finish so that the user is taken back to the {@link ScanListActivity}
+     */
+    public class DisconnReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            finish();
+        }
     }
 }
