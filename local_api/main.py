@@ -6,9 +6,10 @@ from keras.backend.tensorflow_backend import set_session
 import json
 import os
 from datetime import datetime
+from common_processing import *
 
 MODEL_PATH = './models/fruit_classify_der_resnet.json'
-WEIGHT_PATH = './models/fruit_classify_der_resnet.h5'
+WEIGHT_PATH = './models/fruit_classify_3_layers_resnet.h5'
 LABEL_DICT_PATH = './label_dict.json'
 
 sess = tf.Session()
@@ -16,9 +17,12 @@ set_session(sess)
 
 app = FastAPI()
 
-with open(MODEL_PATH, 'r') as model_file:
-    run_model = model_from_json(model_file.read())
-run_model.load_weights(WEIGHT_PATH)
+try:
+    with open(MODEL_PATH, 'r') as model_file:
+        run_model = model_from_json(model_file.read())
+    run_model.load_weights(WEIGHT_PATH)
+except Exception:
+    run_model = load_model(WEIGHT_PATH)
 graph = tf.get_default_graph()
 
 with open(LABEL_DICT_PATH, 'r') as label_dict_file:
@@ -27,6 +31,7 @@ with open(LABEL_DICT_PATH, 'r') as label_dict_file:
 def parse_intensity(intensity):
     intensity = intensity.split('x')
     intensity = np.array([float(inten) for inten in intensity])
+    intensity = preprocess_spectrum(intensity, 224)
     return intensity
 
 @app.post('/predict/')
@@ -36,32 +41,35 @@ def predict_fruit(intensity: str = None):
     global run_model
     global label_dict
     # print(intensity)
-    pred_value = np.expand_dims(parse_intensity(intensity), 1)
     with graph.as_default():
         set_session(sess)
-        prediction = run_model.predict(np.expand_dims(pred_value, 0))
+        prediction = run_model.predict(np.expand_dims(parse_intensity(intensity), 0))
     label = label_dict[np.argmax(prediction)]
     return label_dict[np.argmax(prediction)]
 
 @app.post('/collect/')
-def collect_data(intensity: str = None, fruit: str = None):
-    save_path = './collected_data/' + fruit + '/'
+def collect_data(
+    intensity: str = None, 
+    fruit_type: str = None,
+    measure_place: int = None,
+    measure_index: int = None,
+    sensor_id: int = None,
+    bought_date: str = None,
+    sub_type: int = None
+):
+    save_path = './collected_data/' + fruit_type + '/'
     if not os.path.exists(save_path):
         os.mkdir(save_path)
     inten = parse_intensity(intensity)
-    np.save(save_path + str(datetime.now()), inten)
+    file_name = str(datetime.now()).split('.')[0]
+    measure_atts = {}
+    measure_atts['fruit_type'] = fruit_type
+    measure_atts['measure_place'] = measure_place
+    measure_atts['measure_index'] = measure_index
+    measure_atts['sensor_id'] = sensor_id
+    measure_atts['bought_date'] = bought_date
+    measure_atts['sub_type'] = sub_type
+    with open(save_path + file_name + '.json', 'w') as attribute_file:
+        attribute_file.write(json.dumps(measure_atts))
+    np.save(save_path + file_name, inten)
     return 'saved'
-
-@app.post('/test_post/')
-def test_post_function(name: str = None):
-    print(name)
-    return None
-
-@app.get("/")
-def read_root():
-    return {"Hello": "World"}
-
-
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: str = None):
-    return {"item_id": item_id, "q": q}
