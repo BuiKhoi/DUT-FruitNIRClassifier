@@ -149,8 +149,7 @@ public abstract class Chart<T extends ChartData<? extends DataSet<? extends Entr
     /**
      * text that is displayed when the chart is empty
      */
-    private String mNoDataText = "No chart data available.";
-
+    private String mNoDataText = "No Data";// TODO: 2017/5/7
     /**
      * Gesture listener for custom callbacks when making gestures on the chart.
      */
@@ -360,10 +359,7 @@ public abstract class Chart<T extends ChartData<? extends DataSet<? extends Entr
             return true;
         else {
 
-            if (mData.getYValCount() <= 0)
-                return true;
-            else
-                return false;
+            return mData.getYValCount() <= 0;
         }
     }
 
@@ -522,9 +518,8 @@ public abstract class Chart<T extends ChartData<? extends DataSet<? extends Entr
      * @return
      */
     public boolean valuesToHighlight() {
-        return mIndicesToHighlight == null || mIndicesToHighlight.length <= 0
-                || mIndicesToHighlight[0] == null ? false
-                : true;
+        return !(mIndicesToHighlight == null || mIndicesToHighlight.length <= 0
+                || mIndicesToHighlight[0] == null);
     }
 
     /**

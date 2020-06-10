@@ -2,12 +2,12 @@ apply plugin: 'com.android.library'
 apply plugin: 'android-maven'
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion '28.0.3'
+    compileSdkVersion 23
+    buildToolsVersion '23.0.1'
     // resourcePrefix 'mpcht'
     defaultConfig {
         minSdkVersion 8
-        targetSdkVersion 26
+        targetSdkVersion 23
         versionCode 1
         versionName '1.0'
 
@@ -65,4 +65,3 @@ artifacts {
     archives sourcesJar
     archives javadocJar
 }
-
