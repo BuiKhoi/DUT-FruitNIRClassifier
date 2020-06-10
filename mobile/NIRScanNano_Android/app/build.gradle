@@ -1,13 +1,15 @@
 apply plugin: 'com.android.application'
 
+
+
 android {
-    compileSdkVersion 26
-    buildToolsVersion "28.0.3"
+    compileSdkVersion 23
+    buildToolsVersion "23.0.2"
 
     defaultConfig {
-        applicationId "com.kstechnologies.NanoScan"
+        applicationId "com.gaohui.nanoscan"
         minSdkVersion 21
-        targetSdkVersion 26
+        targetSdkVersion 22
         versionCode 13
         versionName "1.0"
     }
@@ -26,10 +28,15 @@ repositories {
 }
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.android.support:support-v4:26.1.0'
-    implementation project(':MPChartLib')
-    implementation 'com.opencsv:opencsv:3.6'
-    implementation(name: 'nirscannanolibrary', ext:'aar')
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile "com.android.support:appcompat-v7:23.0.0"
+    compile 'com.android.support:design:23.2.0'
+    compile 'com.android.support:cardview-v7:23.0.1'
+    compile 'com.opencsv:opencsv:3.6'
+    compile 'com.baoyz.swipemenulistview:library:1.3.0'
+    compile 'com.kyleduo.switchbutton:library:1.4.5'
+    compile project(':MPChartLib')
+    compile (name: 'nirscannanolibrary', ext:'aar')
+    compile 'com.android.volley:volley:1.1.0'
+    compile 'com.google.code.gson:gson:2.8.5'
 }
-

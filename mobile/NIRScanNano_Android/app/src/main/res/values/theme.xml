@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Color1" parent="@style/BaseTheme">
+        <item name="colorPrimary">@color/color1_primary</item>
+        <item name="colorAccent">@color/color1_primary_light</item>
+        <item name="colorControlNormal">@color/color1_primary</item>
+    </style>
+
+    <style name="Color2" parent="@style/BaseTheme">
+        <item name="colorPrimary">@color/color2_primary</item>
+        <item name="colorAccent">@color/color2_primary_light</item>
+        <item name="colorControlNormal">@color/color2_primary</item>
+    </style>
+
+    <style name="Color3" parent="@style/BaseTheme">
+        <item name="colorPrimary">@color/color3_primary</item>
+        <item name="colorAccent">@color/color3_primary_light</item>
+        <item name="colorControlNormal">@color/color3_primary</item>
+    </style>
+
+    <style name="Color4" parent="@style/BaseTheme">
+        <item name="colorPrimary">@color/color4_primary</item>
+        <item name="colorAccent">@color/color4_primary_light</item>
+        <item name="colorControlNormal">@color/color4_primary</item>
+    </style>
+
+    <style name="Color5" parent="@style/BaseTheme">
+        <item name="colorPrimary">@color/color5_primary</item>
+        <item name="colorAccent">@color/color5_primary_light</item>
+        <item name="colorControlNormal">@color/color5_primary</item>
+    </style>
+
+    <style name="Color6" parent="@style/BaseTheme">
+        <item name="colorPrimary">@color/color6_primary</item>
+        <item name="colorAccent">@color/color6_primary_light</item>
+        <item name="colorControlNormal">@color/color6_primary</item>
+    </style>
+
+    <style name="Color7" parent="@style/BaseTheme">
+        <item name="colorPrimary">@color/color7_primary</item>
+        <item name="colorAccent">@color/color7_primary_light</item>
+        <item name="colorControlNormal">@color/color7_primary</item>
+    </style>
+
+    <style name="Color8" parent="@style/BaseTheme">
+        <item name="colorPrimary">@color/color8_primary</item>
+        <item name="colorAccent">@color/color8_primary_light</item>
+        <item name="colorControlNormal">@color/color8_primary</item>
+    </style>
+
+    <style name="Color9" parent="@style/BaseTheme">
+        <item name="colorPrimary">@color/color9_primary</item>
+        <item name="colorAccent">@color/color9_primary_light</item>
+        <item name="colorControlNormal">@color/color9_primary</item>
+    </style>
+
+
+
+
+</resources>
