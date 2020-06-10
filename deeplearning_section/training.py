@@ -37,9 +37,19 @@ X_train, X_test, y_train, y_test = train_test_split(X_data, y_hot)
 history = train_model.fit(X_train, y_train, 128, 3000, 1, [reduce_lr, checkpoint, early_stop], validation_data=(X_test, y_test))
 train_model.load_weights(MODEL_SAVE_PATH)
 
-plt.plot(history.history['val_accuracy'])
-plt.show()
+# plt.plot(history.history['val_accuracy'])
+# plt.show()
 print('Best accuracy: {}'.format(max(history.history['val_accuracy'])))
+
+plt.plot(history.history['val_accuracy'])
+plt.title('Val accuracy')
+plt.xlabel('Epochs')
+plt.show()
+
+plt.plot(history.history['val_loss'])
+plt.title('Val loss')
+plt.xlabel('Epochs')
+plt.show()
 
 y_pred = train_model.predict(X_test)
 y_p = [np.argmax(yy) for yy in y_pred]
