@@ -7,12 +7,14 @@ import json
 import os
 from datetime import datetime
 from common_processing import *
+import math
+from scipy import signal
 
 MODEL_PATH = './models/fruit_classify_der_resnet.json'
 WEIGHT_PATH = './models/fruit_classify_3_layers_resnet.h5'
 
-BACKUP_MODEL_PATH = './models/model_cong.json'
-BACKUP_MODEL_WEIGHT_PATH = './models/model_cong.h5'
+BACKUP_MODEL_PATH = './models/modeleng2.json'
+BACKUP_MODEL_WEIGHT_PATH = './models/modeleng2.h5'
 
 LABEL_DICT_PATH = './label_dict.json'
 
@@ -45,7 +47,6 @@ def parse_intensity(intensity):
     intensity = np.array([float(inten) for inten in intensity])
     intensity = preprocess_spectrum(intensity, 224)
     return intensity
-
 @app.post('/predict_cong/')
 def predict_fruit(intensity: str = None):
     global graph
@@ -55,11 +56,11 @@ def predict_fruit(intensity: str = None):
     # print(intensity)
     with graph.as_default():
         set_session(sess)
-        pp_intensity = np.moveaxis(parse_intensity(intensity), 0, 1)
-        pp_arr = []
-        for inten in pp_intensity:
-            pp_arr.append(np.expand_dims(inten, [0, -1]))
-        prediction = backup_model.predict(pp_arr)
+        intensity=parse_intensity2(intensity)
+        X_test0=processdata(intensity)
+        X_test1=processdata1(intensity)
+        X_test2=processdata2(intensity)
+        prediction = backup_model.predict([X_test0,X_test1,X_test2])
     print(prediction)
     label = label_dict[np.argmax(prediction)]
     return label_dict[np.argmax(prediction)]
