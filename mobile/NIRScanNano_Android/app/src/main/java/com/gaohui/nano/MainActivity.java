@@ -47,6 +47,7 @@ public class MainActivity extends BaseActivity {
     private BluetoothAdapter bluetoothAdapter;
     private boolean bluetoothState = false;
     private Button btnBlt, btnStart, btnSetup;
+    public EditText edtIP;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +58,7 @@ public class MainActivity extends BaseActivity {
         btnBlt = (Button) findViewById(R.id.btn_blt);
         btnStart = (Button) findViewById(R.id.btn_start);
         btnSetup = (Button) findViewById(R.id.btn_setup);
+        edtIP = (EditText) findViewById(R.id.edt_ip);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         this.setSupportActionBar(toolbar);
@@ -96,8 +98,14 @@ public class MainActivity extends BaseActivity {
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent graphIntent = new Intent(mContext, NewScanActivity.class);
-                startActivity(graphIntent);
+                GlobalVar.ip = edtIP.getText().toString();
+                if(!checkIP(GlobalVar.ip)){
+                    Toast.makeText(getApplicationContext(), "Invalid ip", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Intent graphIntent = new Intent(mContext, NewScanActivity.class);
+                    startActivity(graphIntent);
+                }
             }
         });
     }
@@ -109,26 +117,6 @@ public class MainActivity extends BaseActivity {
         if (bluetoothState){
             btnBlt.setText("Turn off Bluetooth");
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_scan_list, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == 16908332) {
-            drawerLayout.openDrawer(Gravity.LEFT);
-            return true;
-        } else if (id == R.id.action_scan) {
-            Intent graphIntent = new Intent(mContext, NewScanActivity.class);
-            graphIntent.putExtra("file_name", getString(R.string.newScan));
-            startActivity(graphIntent);
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -189,5 +177,29 @@ public class MainActivity extends BaseActivity {
             }
         }
     };
+
+    private boolean checkIP(String ip){
+        String[] element = ip.split("\\.");
+        if(element.length != 4){
+            return false;
+        }
+        else{
+            for (String x: element) {
+                if (x.length() < 1) {
+                    return false;
+                } else {
+                    try {
+                        int e = Integer.parseInt(x);
+                        if (e > 255 || e < 0) {
+                            return false;
+                        }
+                    } catch (Exception ex) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
 
 }
