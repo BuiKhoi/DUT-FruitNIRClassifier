@@ -85,9 +85,7 @@ public class ScanActivity extends BaseActivity {
     }
 
     /**
-     *
-     * 提供一个对话框，询问是否真的要把mac 地址是xxxx 的Nano设置为偏好设备
-     *
+     * Provide a dialog box asking if you really want to set the Nano with the mac address of xxxx as the preferred device
      * @param mac MAC address of Nano
      */
     public void confirmationDialog(String mac) {
@@ -167,7 +165,7 @@ public class ScanActivity extends BaseActivity {
      */
     private void scanLeDevice(final boolean enable) {
         if(mBluetoothLeScanner == null){
-            Toast.makeText(ScanActivity.this, "无法开启 LE 扫描，请先开启蓝牙", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ScanActivity.this, "Unable to turn on LE scanning, please turn on Bluetooth first", Toast.LENGTH_SHORT).show();
             finish();
         }else {
             if (enable) {

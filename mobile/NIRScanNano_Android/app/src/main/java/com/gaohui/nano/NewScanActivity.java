@@ -5,7 +5,7 @@ import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
-import android.bluetooth.le.BluetoothLeScanner;//蓝牙低功耗相关
+import android.bluetooth.le.BluetoothLeScanner;
 import android.bluetooth.le.ScanCallback;
 import android.bluetooth.le.ScanResult;
 import android.content.BroadcastReceiver;
@@ -110,8 +110,6 @@ public class NewScanActivity extends BaseActivity {
 
     private final BroadcastReceiver scanConfReceiver = new ScanConfReceiver();
     private final IntentFilter scanConfFilter = new IntentFilter("ActiveConfigBroadcast");
-//    private final IntentFilter scanConfFilter = new IntentFilter("NewScan:getActiveConfig");
-//    private final IntentFilter scanConfFilter = new IntentFilter("ActiveConfigBroadcast");
 
     private ProgressBar calProgress;
     private KSTNanoSDK.ScanResults results;
@@ -128,7 +126,7 @@ public class NewScanActivity extends BaseActivity {
     private KSTNanoSDK.ScanConfiguration activeConf;
 
     private Menu mMenu;
-    public static final String API_BASE_URL = "http://10.10.42.32:8000/predict/";
+    public static final String API_BASE_URL = "http://" + GlobalVar.ip + ":8000/predict_khoi/";
 
     TextView tvOutput;
     ImageView imgFruit;
@@ -138,7 +136,6 @@ public class NewScanActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.i(TAG, "onCreate()");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_scan);
 
@@ -149,10 +146,10 @@ public class NewScanActivity extends BaseActivity {
         imgFruit = (ImageView) findViewById(R.id.img_fruit);
 
         mContext = this;
-        calProgress = (ProgressBar) findViewById(R.id.calProgress);//进度条
+        calProgress = (ProgressBar) findViewById(R.id.calProgress);
         calProgress.setVisibility(View.VISIBLE);
         connected = false;
-
+        GlobalVar.ip = "";
 
         //从intent 中获取文件名并设置
         Intent intent = getIntent();
@@ -196,10 +193,8 @@ public class NewScanActivity extends BaseActivity {
 
     @Override
     public void onResume() {
-        Log.i(TAG, "onResume()");
         super.onResume();
 
-        //初始化 view pager
         CustomPagerAdapter pagerAdapter = new CustomPagerAdapter(this);
         mViewPager.setAdapter(pagerAdapter);
         mViewPager.invalidate();
@@ -219,7 +214,6 @@ public class NewScanActivity extends BaseActivity {
      */
     @Override
     public void onDestroy() {
-        Log.i(TAG, "onDestroy()");
         super.onDestroy();
         unbindService(mServiceConnection);
         LocalBroadcastManager.getInstance(mContext).unregisterReceiver(scanDataReadyReceiver);
@@ -238,7 +232,6 @@ public class NewScanActivity extends BaseActivity {
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        Log.i(TAG, "onCreateOptionsMenu()");
         getMenuInflater().inflate(R.menu.menu_new_scan, menu);
         mMenu = menu;
         mMenu.findItem(R.id.action_config).setEnabled(false);
@@ -248,7 +241,6 @@ public class NewScanActivity extends BaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Log.i(TAG, "onOptionsItemSelected()");
 
         int id = item.getItemId();
 
@@ -499,20 +491,13 @@ public class NewScanActivity extends BaseActivity {
     public class scanDataReadyReceiver extends BroadcastReceiver {
 
         public void onReceive(Context context, Intent intent) {
-            Log.i(TAG, "gaohuixx:scanDataReadyReceiver.onReceive()");
             calProgress.setVisibility(View.GONE);
             btn_scan.setText(getString(R.string.scan));
             byte[] scanData = intent.getByteArrayExtra(KSTNanoSDK.EXTRA_DATA);
 
-//            String scanType = intent.getStringExtra(KSTNanoSDK.EXTRA_SCAN_TYPE);//好像不应该从Intent中获取扫描类型
-//            String scanType = activeConf.getScanType();//从activeConf 中获取扫描类型，只有三种：Hadamard，Column，Slew
-            String scanType = SettingsManager.getStringPref(mContext, SettingsManager.SharedPreferencesKeys.scanConfiguration, "Column 1");//从数据库中获取当前配置名称
+            String scanType = SettingsManager.getStringPref(mContext, SettingsManager.SharedPreferencesKeys.scanConfiguration, "Column 1");
 
-            String scanDate = intent.getStringExtra(KSTNanoSDK.EXTRA_SCAN_DATE);//17031800200720
-            scanDate = TimeUtil.convertTime(scanDate);
-
-
-            boolean b = SettingsManager.getBooleanPref(mContext, "ReferenceCalibration", false);//获取设置
+            boolean b = SettingsManager.getBooleanPref(mContext, "ReferenceCalibration", false);
             KSTNanoSDK.ReferenceCalibration ref = null;
 
             if (b){
@@ -625,7 +610,7 @@ public class NewScanActivity extends BaseActivity {
             }
 
 
-            int id = DBUtil.queryScanConfbyName("Column 1");
+            int id = DBUtil.queryScanConfbyName(scanType);
 
             String experimentName = "Nano";
             String sampleName = "sample";

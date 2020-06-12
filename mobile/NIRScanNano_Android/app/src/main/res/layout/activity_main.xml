@@ -78,6 +78,16 @@
                 android:layout_below="@id/btn_start"
                 android:text="Set up">
             </Button>
+
+            <EditText
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/edt_ip"
+                android:layout_below="@id/btn_setup"
+                android:layout_centerHorizontal="true"
+                android:hint="enter server ip"
+                android:textAlignment="center">
+            </EditText>
         </RelativeLayout>
 
 
