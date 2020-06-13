@@ -34,13 +34,13 @@ def parse_intensity2(intensity):
     intensity=np.expand_dims(intensity, axis=0)
     return intensity
 def smooth1(x):
-  X_new=x.reshape(224,)
+  X_new=x.reshape(228,)
   y=signal.savgol_filter(X_new,window_length=25, polyorder=5,deriv=1)
   y=np.expand_dims(y,1)
   y=np.asarray(y)
   return y
 def smooth2(x):
-  X_new=x.reshape(224,)
+  X_new=x.reshape(228,)
   y=signal.savgol_filter(X_new,window_length=25, polyorder=5,deriv=2)
   y=np.expand_dims(y,1)
   y=np.asarray(y)
@@ -59,7 +59,7 @@ def processdata(X_data):
   X_f=[]
   for i in range(X_data.shape[0]):
     X_data[i]=standardd(X_data[i])
-    xtem=X_data[i].reshape(224,)
+    xtem=X_data[i].reshape(228,)
     X_f.append(cv2.resize(xtem,(1,224)))
   X_f=np.asarray(X_f)
   print(X_f.shape)
@@ -70,7 +70,7 @@ def processdata1(X_data):
   X_f=[]
   X_tem=np.asarray(list(map(lambda e: smooth1(e),X_data)))
   for i in range(X_tem.shape[0]):
-    xtem=X_tem[i].reshape(224,)
+    xtem=X_tem[i].reshape(228,)
     X_f.append(cv2.resize(xtem,(1,224)))
   X_f=np.asarray(X_f)
   print(X_f.shape)
@@ -81,7 +81,7 @@ def processdata2(X_data):
   X_f=[]
   X_tem=np.asarray(list(map(lambda e: smooth2(e),X_data)))
   for i in range(X_tem.shape[0]):
-    xtem=X_tem[i].reshape(224,)
+    xtem=X_tem[i].reshape(228,)
     X_f.append(cv2.resize(xtem,(1,224)))
   X_f=np.asarray(X_f)
   print(X_f.shape)

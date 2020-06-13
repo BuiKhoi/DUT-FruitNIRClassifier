@@ -62,9 +62,9 @@ def predict_fruit(data:Data):
     with graph.as_default():
         set_session(sess)
         intensity=parse_intensity2(data.intensity)
-        X_test0=processdata(data.intensity)
-        X_test1=processdata1(data.intensity)
-        X_test2=processdata2(data.intensity)
+        X_test0=processdata(intensity)
+        X_test1=processdata1(intensity)
+        X_test2=processdata2(intensity)
         prediction = backup_model.predict([X_test0,X_test1,X_test2])
     print(prediction)
     label = label_dict[np.argmax(prediction)]
