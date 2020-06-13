@@ -28,23 +28,27 @@ def preprocess_spectrum(spectrum, output_size = 224):
     # print(pp_spectrum.shape)
 
     return pp_spectrum
+
 def parse_intensity2(intensity):
     intensity = intensity.split('x')
     intensity = np.array([float(inten) for inten in intensity])
     intensity=np.expand_dims(intensity, axis=0)
     return intensity
+
 def smooth1(x):
   X_new=x.reshape(228,)
   y=signal.savgol_filter(X_new,window_length=25, polyorder=5,deriv=1)
   y=np.expand_dims(y,1)
   y=np.asarray(y)
   return y
+
 def smooth2(x):
   X_new=x.reshape(228,)
   y=signal.savgol_filter(X_new,window_length=25, polyorder=5,deriv=2)
   y=np.expand_dims(y,1)
   y=np.asarray(y)
   return y
+
 def standardd(X):
     Xnew=np.asarray(X,dtype='float')
     total=0
@@ -55,6 +59,7 @@ def standardd(X):
     for i in range(len(X)):
         Xnew[i]=float((X[i]-u)/o)
     return Xnew
+
 def processdata(X_data):
   X_f=[]
   for i in range(X_data.shape[0]):
@@ -64,6 +69,7 @@ def processdata(X_data):
   X_f=np.asarray(X_f)
   print(X_f.shape)
   return X_f
+
 def processdata1(X_data):
   for i in range(X_data.shape[0]):
           X_data[i]=standardd(X_data[i])
@@ -75,6 +81,7 @@ def processdata1(X_data):
   X_f=np.asarray(X_f)
   print(X_f.shape)
   return X_f
+  
 def processdata2(X_data):
   for i in range(X_data.shape[0]):
     X_data[i]=standardd(X_data[i])
