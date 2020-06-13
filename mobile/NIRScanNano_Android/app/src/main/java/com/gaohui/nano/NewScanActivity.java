@@ -126,7 +126,8 @@ public class NewScanActivity extends BaseActivity {
     private KSTNanoSDK.ScanConfiguration activeConf;
 
     private Menu mMenu;
-    public static final String API_BASE_URL = "http://" + GlobalVar.ip + ":8000/predict_khoi/";
+    private static String API_BASE_URL = "http://" + GlobalVar.ip + ":8000/predict_";
+    private String API_URL = "";
 
     TextView tvOutput;
     ImageView imgFruit;
@@ -556,9 +557,16 @@ public class NewScanActivity extends BaseActivity {
 
 
             final RequestQueue requestQueue = Volley.newRequestQueue(mContext);
+            if(GlobalVar.model == "resnet"){
+                API_URL = API_BASE_URL + "khoi/";
+            }
+            else{
+                API_URL = API_BASE_URL + "cong/";
+            }
+            Toast.makeText(getApplicationContext(), API_URL, Toast.LENGTH_SHORT).show();
             StringRequest objectRequest = new StringRequest(
                     Request.Method.POST,
-                    API_BASE_URL,
+                    API_URL,
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {

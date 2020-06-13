@@ -46,7 +46,7 @@ public class MainActivity extends BaseActivity {
     private DrawerLayout drawerLayout;
     private BluetoothAdapter bluetoothAdapter;
     private boolean bluetoothState = false;
-    private Button btnBlt, btnStart, btnSetup;
+    private Button btnBlt, btnStart, btnSetup, btnModel;
     public EditText edtIP;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +58,7 @@ public class MainActivity extends BaseActivity {
         btnBlt = (Button) findViewById(R.id.btn_blt);
         btnStart = (Button) findViewById(R.id.btn_start);
         btnSetup = (Button) findViewById(R.id.btn_setup);
+        btnModel = (Button) findViewById(R.id.btn_model);
         edtIP = (EditText) findViewById(R.id.edt_ip);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -105,6 +106,20 @@ public class MainActivity extends BaseActivity {
                 else{
                     Intent graphIntent = new Intent(mContext, NewScanActivity.class);
                     startActivity(graphIntent);
+                }
+            }
+        });
+
+        btnModel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(GlobalVar.model == "resnet"){
+                    GlobalVar.model = "kfa";
+                    btnModel.setText("KFA");
+                }
+                else{
+                    GlobalVar.model = "resnet";
+                    btnModel.setText("ResNet");
                 }
             }
         });
