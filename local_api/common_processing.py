@@ -93,3 +93,9 @@ def processdata2(X_data):
   X_f=np.asarray(X_f)
   print(X_f.shape)
   return X_f
+
+def calculate_confidence(prediction):
+  total_sum = np.sum(prediction)
+  maxx = np.max(prediction)
+
+  return maxx / total_sum

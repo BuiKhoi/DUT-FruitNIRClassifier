@@ -15,7 +15,7 @@ MODEL_PATH = './models/fruit_classify_der_resnet.json'
 WEIGHT_PATH = './models/fruit_classify_3_layers_resnet.h5'
 
 BACKUP_MODEL_PATH = './models/modeleng2.json'
-BACKUP_MODEL_WEIGHT_PATH = './models/modeleng2.h5'
+BACKUP_MODEL_WEIGHT_PATH = './models/modeleng2_score.h5'
 
 LABEL_DICT_PATH = './label_dict.json'
 
@@ -66,7 +66,7 @@ def predict_fruit(data:Data):
         X_test1=processdata1(intensity)
         X_test2=processdata2(intensity)
         prediction = backup_model.predict([X_test0,X_test1,X_test2])
-    print(prediction)
+    print('Confidence: {}'.format(calculate_confidence(prediction)))
     label = label_dict[np.argmax(prediction)]
     return label_dict[np.argmax(prediction)]
 
