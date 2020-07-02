@@ -114,8 +114,8 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 if(GlobalVar.model == "resnet"){
-                    GlobalVar.model = "kfa";
-                    btnModel.setText("KFA");
+                    GlobalVar.model = "cnn";
+                    btnModel.setText("CNN");
                 }
                 else{
                     GlobalVar.model = "resnet";
