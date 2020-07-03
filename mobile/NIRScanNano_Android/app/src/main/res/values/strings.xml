@@ -1,0 +1,157 @@
+<resources>
+    <string name="app_name">Nano Client</string>
+
+    <string name="action_info">Information</string>
+    <string name="action_settings">Set up</string>
+    <string name="action_scan">Scanning</string>
+
+    <string name="search_hint">Search</string>
+    <string name="title_activity_info">More information</string>
+
+    <string name="title_activity_settings">Set up</string>
+
+    <string-array name="info_title_array">
+        <item>TI DLP website</item>
+        <item>KST DLP website</item>
+        <item>Buy NIRScan Nano</item>
+        <item>Forum support</item>
+    </string-array>
+
+    <string-array name="info_body_array">
+        <item>Learn how TI is revolutionizing mobile spectroscopy</item>
+        <item>Understand KST, TIs strategic design partner</item>
+        <item>Learn how to buy your own valuation module</item>
+        <item>Join TIs E2E Technical Support Forum</item>
+    </string-array>
+
+    <string-array name="info_url_array">
+        <item>http://www.ti.com/lsds/ti/dlp/advanced-light-control/wavelength-control.page</item>
+        <item>https://www.kstechnologies.com/spectroscopy</item>
+        <item>http://www.ti.com/tool/dlpnirnanoevm</item>
+        <item>http://e2e.ti.com/support/dlp__mems_micro-electro-mechanical_systems/f/983</item>
+    </string-array>
+
+    <string name="temperature">Temperature</string>
+    <string name="spatial_freq">Spectral abscissa display format</string>
+    <string name="set_nano">Set preferred Nano</string>
+    <string name="clear_nano">Clear Preferred Nano</string>
+    <string name="go">Set up!</string>
+    <string name="forget">Clear</string>
+
+    <string name="title_activity_graph">Chart</string>
+
+    <string name="reflectance">Reflectance</string>
+    <string name="intensity">Intensity</string>
+    <string name="absorbance">Absorbance</string>
+
+    <string-array name="graph_tab_index">
+        <item>Reflectance</item>
+        <item>Intensity</item>
+        <item>Absorbance</item>
+    </string-array>
+
+    <string name="aspirin">aspirin</string>
+    <string name="bc">bc</string>
+    <string name="bellpepper">bellpepper</string>
+    <string name="coconutoil">coconutoil</string>
+    <string name="coffee">coffee</string>
+    <string name="corn_starch">corn_starch</string>
+    <string name="eucerin_lotion">eucerin_lotion</string>
+    <string name="flour">flour</string>
+    <string name="glucose">glucose</string>
+    <string name="out_of_spec_aspirin">out_of_spec_aspirin</string>
+
+    <string name="delete">Delete</string>
+    <string name="ok">OK</string>
+    <string name="not_connected_title">No Connection</string>
+    <string name="not_connected_message">No Nano device is scanned, please make sure your Nanos Bluetooth is turned on, and then click the scan button on the screen.</string>
+
+    <string name="battery">Battery</string>
+    <string name="humidity">Humidity</string>
+    <string name="device_status">Device Status</string>
+    <string name="error_status">Error Status</string>
+    <string name="temp_threshold">Temp Threshold</string>
+    <string name="deg_c">deg C</string>
+    <string name="deg_f">deg F</string>
+    <string name="humid_threshold">Humid Threshold</string>
+    <string name="relative_humid">% Relative Humid</string>
+    <string name="not_supported">Not Supported</string>
+
+    <string name="version">v%1$s (%2$d)</string>
+
+    <string-array name="configure_options">
+        <item>Device Information</item>
+        <item>equipment status</item>
+        <item>Scan configuration saved in Nano</item>
+        <item>Scan data saved in Nano</item>
+    </string-array>
+
+    <string name="range_start_value">%1$d nm</string>
+    <string name="range_end_value">%1$d nm</string>
+    <string name="width_value">%1$d nm</string>
+    <string name="patterns_value">%1$d</string>
+    <string name="repeats_value">%1$d</string>
+
+    <string name="manufacturer">Manufacturer</string>
+    <string name="range_start">Spectral range starting point</string>
+    <string name="range_end">End of spectral range</string>
+    <string name="width">Width</string>
+    <string name="number_patterns">Number Patterns</string>
+    <string name="number_repeats">Number Repeats</string>
+    <string name="serial_sn">Nano SN</string>
+
+    <string name="scan">Start scanning</string>
+    <string name="prefix">Experiment name</string>
+    <string name="data">data</string>
+    <string name="nano">Nano</string>
+    <string name="save_to_sd">save to sd</string>
+    <string name="save_to_android">save to android</string>
+    <string name="cont_scan">Continue to scan</string>
+    <string name="scan_conf">Scan configuration</string>
+    <string name="col_1">Column 1</string>
+    <string name="hadamard">Hadamard</string>
+
+    <string name="model">model</string>
+    <string name="serial">serial number</string>
+    <string name="hw_rev">hardware version</string>
+    <string name="tiva_rev">Tiva version</string>
+    <string name="spectrum_rev">Spectral version</string>
+
+    <string name="batt_level_value">%1$d%%</string>
+    <string name="temp_value_c">%1$s&#x2103;</string>
+    <string name="temp_value_f">%1$s&#x2109;</string>
+    <string name="humid_value">%1$s%%RH</string>
+
+    <string name="stored_configurations">Scan configuration saved in Nano</string>
+    <string name="reading_configurations">Reading scan configuration. . .</string>
+    <string name="stored_scan_data">Scan data saved in Nano</string>
+    <string name="reading_sd_card">Reading SD card in Nano...</string>
+
+    <string name="time_format_at">\'at\'</string>
+    <string name="new_scan">New scan</string>
+    <string name="newScan">New scan</string>
+    <string name="nano_disconnected">"Nano disconnected!"</string>
+    <string name="configure">Configuration</string>
+    <string name="device_information">Device Information</string>
+    <string name="file_not_found">No file found!</string>
+
+    <string name="emailing">"Emailing "</string>
+    <string name="send_mail">"share it"</string>
+    <string name="no_email_clients">You have not installed an email client</string>
+    <string name="update_thresholds">Update threshold</string>
+    <string name="scanning">Scanning...</string>
+
+    <string name="dl_ref_cal">Download calibration coefficients</string>
+    <string name="dl_cal_matrix">Download calibration matrix</string>
+    <string name="select_nano">Choose Nano</string>
+    <string name="nano_confirmation_title">Are you sure?</string>
+    <string name="nano_confirmation_msg">Are you sure you want to set Nano with MAC address:%1$s as your preferred device?</string>
+    <string name="nano_forget_msg">Are you sure you want to cancel Nano with the MAC address:%1$s as your preferred device?</string>
+    <string name="cancel">Cancel</string>
+    <string name="no_sd_scans">Scanned data is not saved in the SD card!</string>
+
+    <string name="desc_icon">App icon</string>
+    <string name="desc_splash">TI, DLP, and KST logo</string>
+    <string name="desc_info">Info icon</string>
+
+</resources>

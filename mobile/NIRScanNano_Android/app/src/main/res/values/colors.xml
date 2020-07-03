@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#000000</color>
+    <color name="active_conf">#00AA00</color>
+    <color name="white">#FFFFFF</color>
+    <color name="kst_red">#d9351f</color>
+    <color name="gray">#323232</color>
+    <color name="btn_unavailable">#888888</color>
+    <color name="title_green">#FFFFFF</color>
+
+    <color name="default_primary">#07afaf</color><!--默认颜色-->
+    <color name="default_primary_light">#3cc2c2</color>
+
+    <color name="color1_primary">#28009688</color><!--bilibili粉-->
+    <color name="color1_primary_light">#f79db7</color>
+
+    <color name="color2_primary">#f44336</color><!--姨妈红-->
+    <color name="color2_primary_light">#f47f76</color>
+
+    <color name="color3_primary">#ffc107</color>
+    <color name="color3_primary_light">#fcd769</color>
+
+    <color name="color4_primary">#8bc34a</color>
+    <color name="color4_primary_light">#afd286</color>
+
+    <color name="color5_primary">#2194f0</color>
+    <color name="color5_primary_light">#7fc1f5</color>
+
+    <color name="color6_primary">#1427ABB0</color>
+    <color name="color6_primary_light">#35E40F</color>
+
+    <color name="color7_primary">#2d2d2d</color>
+    <color name="color7_primary_light">#717171</color>
+
+    <color name="color8_primary">#07afaf</color>
+    <color name="color8_primary_light">#3cc2c2</color>
+
+    <color name="color9_primary">#8091b0</color>
+    <color name="color9_primary_light">#a2b0c9</color>
+
+
+
+
+
+
+
+</resources>

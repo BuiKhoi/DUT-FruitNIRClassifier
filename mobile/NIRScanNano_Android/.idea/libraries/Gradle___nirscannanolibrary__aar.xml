@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Gradle: :nirscannanolibrary:@aar">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/nirscannanolibrary/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/nirscannanolibrary/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
